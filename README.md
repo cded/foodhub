@@ -31,15 +31,14 @@ The project follows a modular structure to organize different components:
 - **payment:** Integrates with payment gateways to handle payment transactions securely.
 - **transaction:** Manages the transaction process.
 - **billing:** Handle the billing portion.
+- **config:** Contains configuration classes (e.g., security configuration).
 
-- Each module has a similar structure:
+Each module containes its own set of configurations, controllers, models, repositories, and services to facilitate separation of concerns:
   - **model:** Contains entity classes (e.g., `Product`, `ProductCategory`).
   - **repository:** Defines Spring Data JPA repositories for database access.
   - **service:** Implements business logic for products and categories.
   - **controller:** Handles API requests and responses.
   - **payload:** Contains request payload classes for API endpoints.
-
-- **config:** Contains configuration classes (e.g., security configuration).
 
 ## Getting Started
 
