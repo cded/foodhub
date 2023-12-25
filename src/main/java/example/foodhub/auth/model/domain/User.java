@@ -1,16 +1,6 @@
 package example.foodhub.auth.model.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -31,24 +21,15 @@ public class User {
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Set<UserRole> roles = new HashSet<>();
+    private String role;
 
-    public User(String email, String password) {
+    public User(String email, String password, String role) {
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public User() {
-    }
-
-    public Set<UserRole> getRoles() {
-        return this.roles;
-    }
-
-    public void setRoles(Set<UserRole> roles) {
-        this.roles = roles;
     }
 
     public Long getId() {
@@ -81,5 +62,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

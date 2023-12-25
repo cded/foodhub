@@ -1,10 +1,12 @@
 package example.foodhub.auth.controller;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+import example.foodhub.customer.model.domain.Customer;
+import example.foodhub.customer.repository.CustomerRepository;
+import example.foodhub.employee.model.domain.Employee;
+import example.foodhub.employee.repository.EmployeeRepository;
 import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
@@ -25,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import example.foodhub.auth.config.JwtUtils;
 import example.foodhub.auth.model.domain.SecurityUser;
 import example.foodhub.auth.model.domain.User;
-import example.foodhub.auth.model.domain.UserRole;
 import example.foodhub.auth.model.request.LoginRequest;
 import example.foodhub.auth.model.request.SignupRequest;
 import example.foodhub.auth.model.response.JwtResponse;
@@ -43,6 +44,12 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -80,38 +87,29 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
+        String userRole = signUpRequest.getRole();
+
         // Create new user's account
         User user = new User(
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()), userRole);
+        User savedUser = userRepository.save(user);
 
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<UserRole> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            UserRole userRole = UserRole.ROLE_USER;
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        UserRole adminRole = UserRole.ROLE_ADMIN;
-                        roles.add(adminRole);
-                        break;
-                    case "customer":
-                        UserRole customerRole = UserRole.ROLE_CUSTOMER;
-                        roles.add(customerRole);
-                        break;
-                    default:
-                        UserRole userRole = UserRole.ROLE_USER;
-                        roles.add(userRole);
-                        break;
-                }
-            });
+        switch (userRole) {
+            case "ROLE_ADMIN":
+//                Todo + super admin
+                break;
+            case "ROLE_CUSTOMER":
+                Customer customer = new Customer(savedUser);
+                customerRepository.save(customer);
+                break;
+            case "ROLE_EMPLOYEE":
+                Employee employee = new Employee(savedUser);
+                employeeRepository.save(employee);
+                break;
+            default:
+                break;
         }
-
-        user.setRoles(roles);
-        userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

@@ -1,0 +1,22 @@
+GET http://127.0.0.1:8080/products
+
+###
+
+POST http://127.0.0.1:8080/api/auth/signin HTTP/1.1
+content-type: application/json
+
+{
+    "email": "admin@gmail.com",
+    "password": "123456"
+}
+
+###
+
+POST http://127.0.0.1:8080/api/auth/signup HTTP/1.1
+content-type: application/json
+
+{
+    "email": "customer@gmail.com",
+    "password": "123456",
+    "role": "ROLE_CUSTOMER"
+}

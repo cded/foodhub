@@ -1,9 +1,9 @@
 package example.foodhub.auth.model.domain;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,9 +35,7 @@ public class SecurityUser implements UserDetails {
   }
 
   public static SecurityUser build(User user) {
-    List<GrantedAuthority> authorities = user.getRoles().stream()
-        .map(role -> new SimpleGrantedAuthority(role.name()))
-        .collect(Collectors.toList());
+    List<GrantedAuthority> authorities = Arrays.asList((new SimpleGrantedAuthority(user.getRole())));
 
     return new SecurityUser(
         user.getId(),
