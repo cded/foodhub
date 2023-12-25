@@ -1,4 +1,6 @@
 GET http://127.0.0.1:8080/products
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MDM1NDE4NzYsImV4cCI6MTcwMzYyODI3Nn0.dcQKYU7YThtjpKPqX2cuTSpzfUq0bypfyG88Ku9cyZM
 
 ###
 
