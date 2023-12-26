@@ -1,14 +1,10 @@
 package example.foodhub.order.model.domain;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import example.foodhub.delivery.model.domain.Delivery;
+import example.foodhub.restaurant.info.domain.Restaurant;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import example.foodhub.customer.model.domain.Customer;
@@ -19,35 +15,78 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
-    private List<OrderItem> items;
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    private List<OrderItem> items;
+
+    private String orderStatus;
+
+    @OneToOne
+    private Delivery delivery;
+
+    private LocalDateTime orderDate;
+
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     public List<OrderItem> getItems() {
-        return this.items;
+        return items;
     }
 
     public void setItems(List<OrderItem> items) {
         this.items = items;
     }
 
-    public Customer getCustomer() {
-        return this.customer;
+    public String getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public Delivery getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 }

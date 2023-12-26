@@ -1,7 +1,10 @@
 package example.foodhub.customer.model.domain;
 
+import example.foodhub.address.domain.Address;
 import example.foodhub.auth.model.domain.User;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Customer {
@@ -13,11 +16,13 @@ public class Customer {
     @JoinColumn(name ="userId")
     private User user;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private List<Address> addresses;
+
     public Customer(User user) {
         this.user = user;
     }
-
-    private String location;
 
     public User getUser() {
         return user;
@@ -27,19 +32,19 @@ public class Customer {
         this.user = user;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }

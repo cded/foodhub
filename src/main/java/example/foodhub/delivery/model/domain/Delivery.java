@@ -2,12 +2,13 @@ package example.foodhub.delivery.model.domain;
 
 import java.time.LocalDateTime;
 
+import example.foodhub.address.domain.Address;
+import example.foodhub.employee.model.domain.Employee;
 import example.foodhub.order.model.domain.Order;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -17,15 +18,20 @@ public class Delivery {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "order_id")
     private Order order;
 
-    private String driverName;
+    @OneToOne
+    private Address address;
+
+    @OneToOne
+    private Employee driver;
 
     private LocalDateTime deliveryTime;
 
+    private String status;
+
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -33,26 +39,42 @@ public class Delivery {
     }
 
     public Order getOrder() {
-        return this.order;
+        return order;
     }
 
     public void setOrder(Order order) {
         this.order = order;
     }
 
-    public String getDriverName() {
-        return this.driverName;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setDriverName(String driverName) {
-        this.driverName = driverName;
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Employee getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Employee driver) {
+        this.driver = driver;
     }
 
     public LocalDateTime getDeliveryTime() {
-        return this.deliveryTime;
+        return deliveryTime;
     }
 
     public void setDeliveryTime(LocalDateTime deliveryTime) {
         this.deliveryTime = deliveryTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
