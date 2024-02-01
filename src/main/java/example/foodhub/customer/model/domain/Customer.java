@@ -17,7 +17,6 @@ public class Customer {
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id")
     private List<Address> addresses;
 
     public Customer(User user) {

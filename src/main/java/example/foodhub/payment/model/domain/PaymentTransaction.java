@@ -17,7 +17,6 @@ public class PaymentTransaction {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "order_id")
     private Order order;
 
     private BigDecimal amount;

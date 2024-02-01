@@ -6,11 +6,9 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import example.foodhub.restaurant.product.model.domain.Product;
@@ -18,7 +16,7 @@ import example.foodhub.restaurant.product.model.domain.ProductCategory;
 import example.foodhub.restaurant.product.model.request.CreateProductRequest;
 import example.foodhub.restaurant.product.service.ProductService;
 
-@RestController
+@Controller
 public class ProductController {
     private final ProductService productService;
 
@@ -26,7 +24,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/product/{productId}")
+    @GetMapping("/api/product/{productId}")
     public ResponseEntity<Product> product(@PathVariable Long productId) {
         Product product = productService.getProductById(productId);
         if (product != null) {
@@ -36,14 +34,14 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/products")
+    @GetMapping("/api/products")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<Product>> products() {
         List<Product> products = productService.getProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @PostMapping("/product")
+    @PostMapping("/api/product")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> addProduct(@RequestBody CreateProductRequest createProductRequest) {
         Product newProduct = new Product();
@@ -66,5 +64,14 @@ public class ProductController {
 
         return ResponseEntity.created(location)
                 .body(savedProduct);
+    }
+
+
+    @GetMapping("/api/html/greeting")
+    @PreAuthorize("permitAll()")
+    public ModelAndView greeting() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("test");
+        return modelAndView;
     }
 }

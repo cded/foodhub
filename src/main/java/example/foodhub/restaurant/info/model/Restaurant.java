@@ -1,7 +1,9 @@
-package example.foodhub.restaurant.info.domain;
+package example.foodhub.restaurant.info.model;
 
 import example.foodhub.address.domain.Address;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Restaurant {
