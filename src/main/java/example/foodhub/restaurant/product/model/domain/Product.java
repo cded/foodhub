@@ -1,5 +1,6 @@
 package example.foodhub.restaurant.product.model.domain;
 
+import example.foodhub.restaurant.menu.model.Menu;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -33,6 +34,10 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "product_id")
     private List<ProductImage> images = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    private Menu menu;
 
     public String getDescription() {
         return this.description;
@@ -82,4 +87,7 @@ public class Product {
         this.price = price;
     }
 
+    public Menu getMenu() {
+        return this.menu;
+    }
 }

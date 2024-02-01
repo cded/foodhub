@@ -1,16 +1,44 @@
 package example.foodhub.order.controller;
 
+import example.foodhub.auth.config.AuthEntryPointJwt;
+import example.foodhub.order.model.domain.Order;
+import example.foodhub.order.model.request.OrderRequest;
 import example.foodhub.order.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+    @PostMapping
+    public ResponseEntity<String> placeOrder(@RequestBody OrderRequest orderRequest) {
+        logger.info("Order received {}", orderRequest);
+        try {
+            String orderStatus = orderService.placeOrder(orderRequest);
+            return new ResponseEntity<>(orderStatus, HttpStatus.CREATED);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
+        Optional<Order> order = orderService.getOrderById(orderId);
+        return order != null ?
+                new ResponseEntity<>(order.get(), HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

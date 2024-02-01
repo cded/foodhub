@@ -28,3 +28,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpY
 GET http://127.0.0.1:8080/api/restaurants
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MDYyMTYyNTEsImV4cCI6MTcwNjMwMjY1MX0.ZDVgP2UIkzYVwaL_WBDVXyIskOfsYzXFRsbbTq9cIHE
+
+###
+
+POST http://127.0.0.1:8080/api/order
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MDYyMTYyNTEsImV4cCI6MTcwNjMwMjY1MX0.ZDVgP2UIkzYVwaL_WBDVXyIskOfsYzXFRsbbTq9cIHE
+
+{
+    "restaurantId": "1",
+    "customerId": "1",
+    "items": [
+        {
+            "productId": "1",
+            "quantity": "2"
+        }
+    ]
+}
