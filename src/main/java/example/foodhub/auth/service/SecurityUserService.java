@@ -25,4 +25,8 @@ public class SecurityUserService implements UserDetailsService {
         return SecurityUser.build(user);
     }
 
+    public User getUser(String username) {
+        return userRepository.findByEmail(username).get();
+    }
+
 }

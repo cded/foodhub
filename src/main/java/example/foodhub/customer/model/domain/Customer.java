@@ -19,6 +19,10 @@ public class Customer {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Address> addresses;
 
+    public Customer() {
+
+    }
+
     public Customer(User user) {
         this.user = user;
     }
